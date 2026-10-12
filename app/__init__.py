@@ -1,0 +1,1 @@
+"""Music Crafter local application."""

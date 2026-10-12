@@ -1,0 +1,45 @@
+# Publish only application source, tests, launchers, and curated documentation.
+# New top-level content must be explicitly reviewed before it is allowed.
+/*
+!/.gitignore
+!/.gitattributes
+!/README.md
+!/requirements.txt
+!/Start Music Crafter.cmd
+!/Stop Music Crafter.cmd
+!/Start-MusicCrafter.ps1
+!/Stop-MusicCrafter.ps1
+!/app/
+!/tests/
+!/docs/
+/app/*
+!/app/*.py
+!/app/static/
+/app/static/*
+!/app/static/*.html
+!/app/static/*.css
+!/app/static/*.js
+/tests/*
+!/tests/test_*.py
+/docs/*
+!/docs/screenshots/
+/docs/screenshots/*
+!/docs/screenshots/library.jpg
+!/docs/screenshots/preview.jpg
+
+__pycache__/
+*.py[cod]
+.env*
+*.pem
+*.key
+*.log
+*.pid
+*.sds
+*.sdi
+*.blk
+*.blx
+*.ssdb
+*.wav
+*.mp3
+*.exe
+*.7z

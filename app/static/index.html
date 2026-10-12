@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#101316">
+  <meta name="color-scheme" content="dark">
+  <title>Music Crafter</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2365dfc4'/%3E%3Cg stroke='%2309241e' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M8 13v6M13 8v16M19 11v10M24 14v4'/%3E%3C/g%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="mc-app">
+    <header class="mc-header">
+      <a class="mc-brand" href="/" aria-label="Music Crafter home"><span class="mc-logo" data-icon="audio-lines"></span>Music Crafter</a>
+      <div class="mc-header-tools"><span id="library-status" class="mc-badge">Connecting to library…</span><button class="mc-ghost" data-action="settings" aria-label="Settings"><span data-icon="settings"></span></button></div>
+    </header>
+    <div id="global-error" class="mc-global-error" role="alert" hidden></div>
+    <div class="mc-body">
+      <aside class="mc-sidebar">
+        <nav aria-label="Music library"><p class="mc-eyebrow">Library</p><button data-action="all" aria-pressed="true"><span data-icon="library"></span>All tracks<span id="all-count" class="mc-nav-count">—</span></button><button data-action="favorites" aria-pressed="false"><span data-icon="star"></span>Favorites<span id="favorite-count" class="mc-nav-count">0</span></button><button data-action="clips" aria-pressed="false"><span data-icon="disc"></span>My clips<span id="clip-count" class="mc-nav-count">0</span></button></nav>
+        <section><p class="mc-eyebrow">Collections</p><div class="mc-collection-root"><span data-icon="folder"></span>Music library</div><div id="collections" class="mc-collection-list"></div></section>
+        <div class="mc-source"><span data-icon="folder"></span><span>Folder library</span><span id="source-summary">Reading collections…</span><button data-action="folders"><span data-icon="folder"></span>Manage folders <span data-icon="chevron-right"></span></button></div>
+      </aside>
+      <div id="sidebar-resizer" class="mc-sidebar-resizer" role="separator" tabindex="0" aria-label="Resize collections pane" aria-orientation="vertical" aria-valuemin="180" aria-valuemax="480" aria-valuenow="260" title="Drag to resize collections. Arrow keys also work."></div>
+      <main class="mc-workspace">
+        <div class="mc-grid">
+          <section class="mc-browser" aria-label="Track browser">
+            <div class="mc-library-heading"><div><h1 id="library-heading">Your music library</h1><p id="library-subtitle" class="mc-muted mc-small">Find a track. Choose a length. Make it yours.</p></div><button class="mc-ghost" data-action="rescan" aria-label="Rescan music folders" title="Rescan music folders"><span data-icon="refresh"></span></button></div>
+            <div id="track-browser">
+              <label class="mc-search"><span data-icon="search"></span><input id="track-query" type="search" placeholder="Search tracks, moods, instruments…" aria-label="Search tracks"></label>
+              <div class="mc-filters"><select id="mood-filter" aria-label="Filter by mood"><option value="">All moods</option></select><select id="energy-filter" aria-label="Filter by energy"><option value="">All energy</option><option value="1">Gentle</option><option value="2">Easygoing</option><option value="3">Lively</option><option value="4">Energetic</option></select><select id="sort-tracks" aria-label="Sort tracks"><option value="title">Title A–Z</option><option value="tempo">Tempo, slow to fast</option><option value="energy">Energy, low to high</option></select></div>
+              <div class="mc-list-head"><span>Track</span><span aria-label="Preview"></span><span>BPM</span><span>Energy</span><span></span></div>
+              <div id="track-list" class="mc-list" aria-label="Tracks"><p class="mc-empty">Loading your music…</p></div>
+              <div class="mc-list-footer"><span id="track-count"></span><span id="track-type">Ready to arrange</span></div>
+            </div>
+            <div id="clips-browser" hidden></div>
+          </section>
+          <aside class="mc-right">
+            <section id="craft-panel" class="mc-craft" aria-label="Create music clip"></section>
+            <section class="mc-metadata" aria-label="Track information"><div class="mc-tabs" role="tablist" aria-label="Track information"><button id="tab-details" role="tab" aria-selected="true" aria-controls="track-info" data-action="tab" data-value="details">Details</button><button id="tab-credits" role="tab" aria-selected="false" aria-controls="track-info" data-action="tab" data-value="credits">Credits</button><button id="tab-notes" role="tab" aria-selected="false" aria-controls="track-info" data-action="tab" data-value="notes">Notes</button></div><div id="track-info" class="mc-info" role="tabpanel" aria-labelledby="tab-details"></div></section>
+          </aside>
+        </div>
+        <section class="mc-preview" aria-label="Clip preview">
+          <div class="mc-preview-top"><div id="preview-title" class="mc-preview-title"><h3>Your clip</h3></div><span id="preview-status" class="mc-preview-status" aria-live="polite">Generate a clip to preview it</span></div>
+          <div id="waveform" class="mc-waveform" role="slider" tabindex="-1" aria-label="Playback position" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-disabled="true"><svg viewBox="0 0 600 58" preserveAspectRatio="none" aria-hidden="true"></svg><div id="waveform-empty" class="mc-waveform-empty">Your arrangement will appear here</div><div id="playback-cursor" class="mc-cursor" hidden></div></div>
+          <div id="waveform-ticks" class="mc-ticks"><span>0:00</span><span>—</span></div>
+          <div id="arrangement" class="mc-arrangement" aria-label="Musical sections"></div>
+          <div class="mc-transport"><div class="mc-playback"><button id="play-button" data-action="play" class="mc-primary" aria-label="Play clip" disabled><span data-icon="play"></span></button><button id="stop-button" data-action="stop" class="mc-ghost" aria-label="Return to start" disabled><span data-icon="skip-back"></span></button><output id="playback-time">0:00 / 0:00</output><label class="mc-volume"><span data-icon="volume"></span><input id="volume" type="range" min="0" max="100" value="70" aria-label="Preview volume"></label></div><button id="export-button" data-action="export" class="mc-export" disabled><span data-icon="download"></span>Export clip</button></div>
+          <p id="preview-notice" class="mc-small mc-muted mc-preview-notice"></p>
+          <audio id="clip-audio" preload="metadata"></audio>
+        </section>
+      </main>
+    </div>
+    <div id="modal-host"></div>
+    <div id="toast" role="status" aria-live="polite" hidden></div>
+    <audio id="track-preview-audio" preload="none" hidden></audio>
+  </div>
+</body>
+</html>
